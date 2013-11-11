@@ -25,13 +25,13 @@ void log::log_warning(std::string message)
 	warn(message.c_str());
 }
 
-void log::log_error(std::string message, va_list args)
+void log::log_error(std::string message, std::string arg0)
 {
- errx(severity, message.c_str(), args);
+ errx(100, message.c_str(), arg0.c_str());
 
 }
 
-void log::log_warning(std::string message, va_list args)
+void log::log_warning(std::string message, std::string arg0)
 {
- warnx(message.c_str(), args);
+ warnx(message.c_str(), arg0.c_str());
 }

@@ -31,6 +31,6 @@ int main(int argc, char **argv)
   
   curl_helper curl = curl_helper();
 
-  string str = curl.simple_get("http://dev.msitakenlypriced.com") ;
+  string str = curl.simple_get("http://dev.mistakenlypriced.com") ;
   printf(str.c_str());
 }

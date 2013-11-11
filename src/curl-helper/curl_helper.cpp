@@ -36,7 +36,7 @@ std::string curl_helper::simple_get(std::string url)
    }
   
   m_logger.log_info("Cleaning up curl");
-  curl_easy_cleanup(curl);
+  curl_easy_cleanup(m_curl);
   
   return std::string("Curl test goes here\r\n");
  }
