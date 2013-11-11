@@ -3,13 +3,13 @@
 #include <iostream>
 #include "../shared/vars.h"
 
-log::log(int verbose) : m_verbose(verbose)
+log::log()
 {
 
 }
-void log::log_error(std::string message, int severity)
+void log::log_error(std::string message)
 {
-	err(severity, message.c_str());
+	err(100, message.c_str());
 }
 
 void log::log_info(std::string message)
@@ -25,7 +25,7 @@ void log::log_warning(std::string message)
 	warn(message.c_str());
 }
 
-void log::log_error(std::string message, int severity, va_list args)
+void log::log_error(std::string message, va_list args)
 {
  errx(severity, message.c_str(), args);
 
