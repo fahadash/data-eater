@@ -1,23 +1,37 @@
 #include "log.h"
 #include <err.h>
+#include <iostream>
+#include "../shared/vars.h"
 
-log::log(int verbose=0) : m_verbose(verbose)
+log::log(int verbose) : m_verbose(verbose)
 {
-|
 
-void log::error(std::string message, int severity  = 100)
+}
+void log::log_error(std::string message, int severity)
 {
 	err(severity, message.c_str());
 }
 
-void log::info(std::string message)
+void log::log_info(std::string message)
 {
-	std::cout<<"info: "<<message<<endl;
+	if (g_verbose == 1)
+	{
+		std::cout<<"info: "<<message<<std::endl;
+	}
 }
 
-void log::warning(std::string message)
+void log::log_warning(std::string message)
 {
-	warn(message);
+	warn(message.c_str());
 }
 
+void log::log_error(std::string message, int severity, va_list args)
+{
+ errx(severity, message.c_str(), args);
 
+}
+
+void log::log_warning(std::string message, va_list args)
+{
+ warnx(message.c_str(), args);
+}

@@ -1,15 +1,20 @@
 #include <iostream>
 using namespace std;
-#include "init_curl"
-
+#include "init_curl.h"
+#include "../log/log.h"
 
 CURL *init_curl()
 {
-   CURL  *curl = curl_easy_init();
-
+   
+   log logger;
+   logger.log_info("Initializing curl easy");
+   CURL  *curl = curl_easy_init();  
+  
    if (!curl)
  	{
-		cout<<"Warning!!! CUrl initialization failed";
+		logger.log_warning("Warning!!! CUrl initialization failed");
 	}
+
+	return curl;
   
 }
