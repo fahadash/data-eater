@@ -11,6 +11,7 @@ using namespace std;
 curl_session::curl_session()
 {
 	m_curl = init_curl();
+	curl_easy_setopt(m_curl, CURLOPT_COOKIEFILE, "");
 }
 
 struct MemoryStruct {
@@ -82,8 +83,51 @@ std::string curl_session::get(std::string url)
  }
 }
 
+//post request
 std::string curl_session::post(std::string url, std::string formdata)
 {
- return "";
+  string message = "curl_session::post started: ";
+ message.append("url = ");
+ message.append(url);
+
+ m_logger.log_info(message);
+
+ if (m_curl)
+ {
+  MemoryStruct chunk;
+  chunk.memory = (char*) malloc(1);
+  chunk.size = 0;
+
+  m_logger.log_info("Initializing curl options");
+  curl_easy_setopt(m_curl, CURLOPT_URL, url.c_str());
+
+  curl_easy_setopt(m_curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+  curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+  curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, (void*) &chunk);
+
+  m_logger.log_info("Performing curl operation");
+
+  CURLcode res;
+  res  = curl_easy_perform(m_curl);
+
+  if (res != CURLE_OK)
+   {
+     m_logger.log_error("curl_easy_perform() failed. %s", curl_easy_strerror(res));
+        return "";
+   }
+
+  m_logger.log_info("Cleaning up curl");
+  curl_easy_cleanup(m_curl);
+
+
+  return chunk.memory;
+ }
+ else
+ {
+  m_logger.log_error("curl was not initialized properly");
+  return "";
+ }
+
 }
 

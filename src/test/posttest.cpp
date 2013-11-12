@@ -2,6 +2,7 @@
 #include "../shared/vars.h"
 #include "../shared/args.h"
 #include "../log/log.h"
+#include "../model/form_data.h"
 #include <stdio.h>
 #include <vector>
 #include <string>
@@ -36,6 +37,11 @@ int main(int argc, char **argv)
   logger.log_info("Initializing");
   
   curl_helper curl = curl_helper();
+
+  form_data data;
+
+  data.add("firstname","Muhammad");
+  data.add("lastname", "fahad");
 
   string str = curl.simple_get(url) ;
   cout<<str<<endl;
