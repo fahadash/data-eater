@@ -3,6 +3,8 @@
 #include <string>
 
 using namespace std;
+#ifndef __form_data_h_included
+#define __form_data_h_included
 
 struct Key_Value_Pair
 {
@@ -18,7 +20,9 @@ class form_data
  public:
   void add(string key, string value);
  
- curl_httppost *get_curl_data();
+ curl_httppost *curl_form_data();
  
 
 };
+
+#endif

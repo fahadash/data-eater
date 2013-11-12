@@ -84,7 +84,7 @@ std::string curl_session::get(std::string url)
 }
 
 //post request
-std::string curl_session::post(std::string url, std::string formdata)
+std::string curl_session::post(std::string url, form_data formdata)
 {
   string message = "curl_session::post started: ";
  message.append("url = ");
@@ -105,6 +105,8 @@ std::string curl_session::post(std::string url, std::string formdata)
 
   curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
   curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, (void*) &chunk);
+  curl_httppost * post = formdata.curl_form_data();
+  curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, post);
 
   m_logger.log_info("Performing curl operation");
 
@@ -120,7 +122,7 @@ std::string curl_session::post(std::string url, std::string formdata)
   m_logger.log_info("Cleaning up curl");
   curl_easy_cleanup(m_curl);
 
-
+  curl_formfree(post);
   return chunk.memory;
  }
  else

@@ -10,7 +10,7 @@ void form_data::add(string key, string value)
   }
 
 
- curl_httppost * form_data::get_curl_data()
+ curl_httppost * form_data::curl_form_data()
  {
    curl_httppost *formpost = NULL;
    curl_httppost *lastptr = NULL;
