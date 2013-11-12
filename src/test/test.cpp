@@ -18,7 +18,7 @@ int main(int argc, char **argv)
   cout<<"Data Eater Test"<<endl;
   string url = "http://dev.mistakenlypriced.com";
   
-  while ((c = getopt (argc, argv, "v::u::")) != -1)
+  while ((c = getopt (argc, argv, "v::u:")) != -1)
   {
 	switch (c)
 	{
@@ -28,10 +28,7 @@ int main(int argc, char **argv)
 		break;
 		case 'u':
 		args.push_back("url");
-		char tmp[200];
-		sprintf(tmp, "%s", optarg);
-		cout<<tmp;
-		url = tmp;
+		url = optarg;
 		break;
 	}
   }
