@@ -16,14 +16,23 @@ int main(int argc, char **argv)
   g_verbose = 0;
   log logger;
   cout<<"Data Eater Test"<<endl;
-
-  while ((c = getopt (argc, argv, "v::")) != -1)
+  string url = "http://dev.mistakenlypriced.com";
+  
+  while ((c = getopt (argc, argv, "v::u::")) != -1)
   {
 	switch (c)
 	{
 		case 'v' :
 		args.push_back("verbose");
 		g_verbose = 1;
+		break;
+		case 'u':
+		args.push_back("url");
+		char tmp[200];
+		sprintf(tmp, "%s", optarg);
+		cout<<tmp;
+		url = tmp;
+		break;
 	}
   }
 
@@ -31,6 +40,6 @@ int main(int argc, char **argv)
   
   curl_helper curl = curl_helper();
 
-  string str = curl.simple_get("http://dev.mistakenlypriced.com") ;
-  printf(str.c_str());
+  string str = curl.simple_get(url) ;
+  cout<<str<<endl;
 }
