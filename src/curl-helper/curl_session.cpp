@@ -1,5 +1,5 @@
 
-#include "curl_helper.h"
+#include "curl_session.h"
 #include "init_curl.h"
 #include <string>
 #include <sstream>
@@ -8,7 +8,7 @@
 #include <string.h>
 using namespace std;
 
-curl_helper::curl_helper()
+curl_session::curl_session()
 {
 	m_curl = init_curl();
 }
@@ -36,9 +36,9 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
  return realsize;
 }
 
-std::string curl_helper::simple_get(std::string url)
+std::string curl_session::get(std::string url)
 {
- string message = "curl_helper::simple_get started: ";
+ string message = "curl_session::simple_get started: ";
  message.append("url = ");
  message.append(url);
  
@@ -80,5 +80,10 @@ std::string curl_helper::simple_get(std::string url)
   m_logger.log_error("curl was not initialized properly");
   return "";
  }
+}
+
+std::string curl_session::post(std::string url, std::string formdata)
+{
+ return "";
 }
 
