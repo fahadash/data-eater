@@ -5,7 +5,7 @@ CFLAGS = -Wall -Werror
 
 INCLUDE = -I/usr/local/include
 LDFLAGS = -l/usr/local/lib
-LDLIBS = -lcurl
+LDLIBS = -lcurl -ltidy
 
 SOURCES_SIMPLETEST = src/shared/vars.cpp src/shared/args.cpp src/model/form_data.cpp src/curl-helper/curl_helper.cpp src/curl-helper/curl_session.cpp src/curl-helper/init_curl.cpp src/log/log.cpp src/test/simpletest.cpp
 
@@ -24,4 +24,17 @@ posttest: posttest_build
 
 posttest_build: $(SOURCES_POSTTEST)
 	$(CXX) -o $(POST_OUT) $(INCLUDE) $(LDLIBS) $(CFLAGS) $(SOURCES_POSTTEST)
+
+
+
+
+# TIDY TEST
+SOURCES_TIDY = src/shared/vars.cpp src/log/log.cpp src/test/tidy_test.cpp src/tidy-helper/tidy_converter.cpp
+
+TIDY_OUT = tidytest.out
+
+tidytest: tidytest_build
+
+tidytest_build: $(SOURCES_TIDY)
+	$(CXX) -std=c++11 -o $(TIDY_OUT) $(INCLUDE) $(LDLIBS) $(CFLAGS) $(SOURCES_TIDY)
 

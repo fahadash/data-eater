@@ -14,4 +14,5 @@ class curl_session
  
  public:
   curl_session();
+  ~curl_session();
 };

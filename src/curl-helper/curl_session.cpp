@@ -22,24 +22,34 @@ struct MemoryStruct {
 static size_t
 WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
+
  log logger;
+ logger.log_info("Entered, WriteMemoryCallback");
  size_t realsize = size * nmemb;
  struct MemoryStruct  *mem = (struct MemoryStruct *) userp;
+ logger.log_info("Trying to allocate memory");
  mem->memory = (char*)realloc(mem->memory, mem->size + realsize + 1);
  if (mem->memory == NULL)
  {
    logger.log_error("not enough memory (realloc returned NULL)");
  }
+ logger.log_info("Copying memory"); 
  memcpy(&(mem->memory[mem->size]), contents, realsize);
  mem->size += realsize;
  mem->memory[mem->size] = 0;
  
  return realsize;
 }
-
+curl_session::~curl_session()
+{
+ if (m_curl )
+ {
+   curl_easy_cleanup(m_curl);
+ }
+}
 std::string curl_session::get(std::string url)
 {
- string message = "curl_session::simple_get started: ";
+ string message = "curl_session::get started: ";
  message.append("url = ");
  message.append(url);
  
@@ -71,7 +81,7 @@ std::string curl_session::get(std::string url)
    }
   
   m_logger.log_info("Cleaning up curl");
-  curl_easy_cleanup(m_curl);
+  //curl_easy_cleanup(m_curl);
   
   
   return chunk.memory;
@@ -120,7 +130,7 @@ std::string curl_session::post(std::string url, form_data formdata)
    }
 
   m_logger.log_info("Cleaning up curl");
-  curl_easy_cleanup(m_curl);
+  //curl_easy_cleanup(m_curl);
 
   curl_formfree(post);
   return chunk.memory;

@@ -14,11 +14,11 @@ int main(int argc, char **argv)
 {
   
   
-  g_verbose = 0;
+  g_verbose = 1;
   log logger;
   cout<<"Data Eater Test"<<endl;
   string url = "http://dev.mistakenlypriced.com";
-
+  cout<<"test"<<endl;
   logger.log_info("Initializing");
   
   curl_session curl = curl_session();
@@ -31,6 +31,7 @@ int main(int argc, char **argv)
   
 
   string str = curl.get(url);
+  cout<<str;
   str = curl.post(url, data);
   cout<<str<<endl;
 }
