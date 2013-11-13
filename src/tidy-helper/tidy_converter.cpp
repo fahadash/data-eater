@@ -17,7 +17,8 @@ string tidy_converter::convert_xhtml(string input)
  TidyDoc tdoc = tidyCreate();
  
  ok = tidyOptSetBool(tdoc, TidyXhtmlOut, yes);
- 
+ ok = tidyOptSetBool(tdoc, TidyXmlDecl, yes);
+ ok = tidyOptSetInt(tdoc, TidyDoctypeMode, TidyDoctypeOmit);  
  if (ok)
  {
    rc = tidySetErrorBuffer(tdoc, &m_errbuf);
