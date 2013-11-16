@@ -1,4 +1,4 @@
-//#include "../xml-helper/xml_helper.h"
+#include "../xml-helper/xml_helper.h"
 #include "../shared/vars.h"
 #include "../log/log.h"
 #include <stdio.h>
@@ -16,8 +16,8 @@ int main(int argc, char **argv)
 
 
   logger.log_info("Initializing");
-  xml_document doc;
-  doc.load_xml(xml);
+  //xml_document doc;
+  //doc.load_xml(xml);
 
   cout<<"loaded"<<endl;
 }

@@ -42,7 +42,7 @@ tidytest_build: $(SOURCES_TIDY)
 
 
 # XML TEST
-SOURCES_XML = src/xml-helper/xml_node.cpp src/xml-helper/xml_document.cpp
+SOURCES_XML = src/xml-helper/xml_node.cpp src/xml-helper/xml_document.cpp src/test/xml_test.cpp src/shared/vars.cpp src/log/log.cpp
 
 XML_OUT = xmltest.out
 

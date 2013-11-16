@@ -16,7 +16,7 @@
 #include <xalanc/XalanSourceTree/XalanSourceTreeDOMSupport.hpp>
 #include <xalanc/XalanSourceTree/XalanSourceTreeInit.hpp>
 #include <xalanc/XalanSourceTree/XalanSourceTreeParserLiaison.hpp>
-
+#include <xalanc/XalanDOM/XalanDocument.hpp>
 
 #include <iostream>
 #include <string>
@@ -36,7 +36,7 @@ XALAN_USING_XALAN(XalanNode)
 XALAN_USING_XALAN(XalanSourceTreeInit)
 XALAN_USING_XALAN(XalanSourceTreeDOMSupport)
 XALAN_USING_XALAN(XalanSourceTreeParserLiaison)
-
+//XALAN_USING_XALAN(XObjectPtr)
 
 template <typename T> 
 inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer is null")
@@ -71,13 +71,15 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
      //TODO Check domSupport null
 
     XPathEvaluator evaluator;
-    XalanNode *const theNode = evaluator.selectSingleNode(
+    XalanNode* const theNode = evaluator.selectSingleNode(
 							*m_pdom_support,
 							p_doc.get(),
 							XalanDOMString((const char*) xpath.c_str()).c_str(),
 							*m_pprefix_resolver);
 
-    return xml_node(make_shared<XalanNode>(theNode), m_pprefix_resolver, m_pdom_support);
+	shared_ptr<XalanNode> pnode;
+	pnode.reset(theNode);    
+    return xml_node(pnode, m_pprefix_resolver, m_pdom_support);
 											
   }
 
