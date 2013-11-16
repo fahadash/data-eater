@@ -5,7 +5,7 @@ CFLAGS = -Wall -Werror
 
 INCLUDE = -I/usr/local/include
 LDFLAGS = -l/usr/local/lib
-LDLIBS = -lcurl -ltidy
+LDLIBS = -lcurl -ltidy -lxerces-c -lxalan-c
 
 SOURCES_SIMPLETEST = src/shared/vars.cpp src/shared/args.cpp src/model/form_data.cpp src/curl-helper/curl_helper.cpp src/curl-helper/curl_session.cpp src/curl-helper/init_curl.cpp src/log/log.cpp src/test/simpletest.cpp
 
@@ -37,4 +37,19 @@ tidytest: tidytest_build
 
 tidytest_build: $(SOURCES_TIDY)
 	$(CXX) -std=c++11 -o $(TIDY_OUT) $(INCLUDE) $(LDLIBS) $(CFLAGS) $(SOURCES_TIDY)
+
+
+
+
+# XML TEST
+SOURCES_XML = src/xml-helper/xml_node.cpp src/xml-helper/xml_document.cpp
+
+XML_OUT = xmltest.out
+
+xmltest: xmltest_build
+
+xmltest_build: $(SOURCES_XML)
+	$(CXX) -std=c++11 -o $(XML_OUT) $(INCLUDE) $(LDLIBS) $(CFLAGS) $(SOURCES_XML)
+
+
 
