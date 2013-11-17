@@ -3,7 +3,8 @@
 
 #ifndef __class_log_defined
 #define __class_log_defined
-
+namespace dataeater
+{
 class log
 {
 	private:
@@ -21,4 +22,5 @@ class log
 
 	
 };
+}
 #endif

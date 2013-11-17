@@ -3,6 +3,9 @@
 #include <iostream>
 #include "../shared/vars.h"
 
+
+namespace dataeater
+{
 log::log()
 {
 
@@ -34,4 +37,5 @@ void log::log_error(std::string message, std::string arg0)
 void log::log_warning(std::string message, std::string arg0)
 {
  warnx(message.c_str(), arg0.c_str());
+}
 }

@@ -1,3 +1,4 @@
+#include "../log/log.h"
 #include "xml_helper.h"
 
 
@@ -23,9 +24,11 @@
 #include <memory>
 using namespace std;
 
+#include<xercesc/util/BinInputStream.hpp>
+
 XALAN_USING_XERCES(XMLPlatformUtils)
 XALAN_USING_XERCES(MemBufInputSource)
-
+XALAN_USING_XERCES(BinInputStream)
 
 XALAN_USING_XALAN(XPathEvaluator)
 
@@ -43,10 +46,10 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
   {
     if (!ptr)
   	{
-		cout<<message;
-		return 0;
+		cout<<message<<endl;
+		return 1;
  	}
-    return 1;
+    return 0;
   }
 
   xml_document::xml_document()
@@ -63,7 +66,8 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 
   xml_node  xml_document::select_single_node(string xpath)
   {
-     if (check_null(p_doc, "xml_document - Pointer is null"))
+     if (check_null(p_doc, "xml_document - p_doc pointer is null") 
+		|| check_null (m_pdom_support, "xml_document - m_pdom_support is null"))
 	{
 		return xml_node(shared_ptr<XalanNode>(), m_pprefix_resolver, shared_ptr<XalanSourceTreeDOMSupport>());
 	}
@@ -75,10 +79,24 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 							*m_pdom_support,
 							p_doc.get(),
 							XalanDOMString((const char*) xpath.c_str()).c_str(),
-							*m_pprefix_resolver);
 
-	shared_ptr<XalanNode> pnode;
-	pnode.reset(theNode);    
+								*m_pprefix_resolver);
+	if (theNode == nullptr)
+	{
+		cout<<"Warning: evaluator.selectSingleNode returned null"<<endl;
+	}
+	shared_ptr<XalanNode> pnode(theNode);
+
+	if (!pnode)
+	{
+		cout<<"Warning: pnode pointer being passed to xml_node::ctor() is null"<<endl;
+	}
+	
+    cout<<"Running a test method to see if object is valid..."<<endl;
+   XalanDOMString str = theNode->getNodeName();
+   string ret;
+   ret.assign(str.begin(), str.end());
+	cout<<"Method run, output is : "<<ret<<endl;
     return xml_node(pnode, m_pprefix_resolver, m_pdom_support);
 											
   }
@@ -89,20 +107,35 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
   void load(string filepath);
   void xml_document::load_xml(string xml)
   {
+	dataeater::log logger;
+
 	XalanSourceTreeInit		theSourceTreeInit;
 	XalanSourceTreeDOMSupport *theDOMSupport = new XalanSourceTreeDOMSupport();
- 	m_pdom_support.reset(theDOMSupport);
+	m_pdom_support.reset(theDOMSupport);
 	XalanSourceTreeParserLiaison *theLiaison = new XalanSourceTreeParserLiaison(*theDOMSupport);
 	m_pdom_support->setParserLiaison(theLiaison);
 
-	XalanDOMString input((const char*) xml.c_str());
+	if (theLiaison == nullptr)
+	{
+		cout<<"Liaison is null";
+	}
+	
+	//logger.log_info(xml);
+//	XalanDOMString input((const char*) xml.c_str());
 
-	const MemBufInputSource theInputSource((XMLByte*) input.c_str(), input.length(), "doc");
+	const MemBufInputSource *theInputSource = new MemBufInputSource((XMLByte*) xml.c_str(), xml.length(), "doc");
 
-	XalanDocument * const theDocument = theLiaison->parseXMLStream(theInputSource);
-
+	XalanDocument * const theDocument = theLiaison->parseXMLStream(*theInputSource);
+	if (theDocument == nullptr)
+	{
+		cout<<"XalanDocument in load_xml came back null"<<endl;
+	}
+	logger.log_info("doc parsed");
+	logger.log_info("Setting pointer 1");
 	p_doc.reset(theDocument);
+	logger.log_info("Setting pointer 2");
 	m_pprefix_resolver.reset(new XalanDocumentPrefixResolver(theDocument));
+	logger.log_info("ended");
 
   }
 
