@@ -93,7 +93,7 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
   {
    if (m_pnode)
 {
-   XalanDOMString str = m_pnode->getNodeName();
+   XalanDOMString str = m_pnode->getNodeValue();
    string ret;
    ret.assign(str.begin(), str.end());
 

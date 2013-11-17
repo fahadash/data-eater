@@ -54,14 +54,14 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 
   xml_document::xml_document()
   {
-   XMLPlatformUtils::Initialize();
-   XPathEvaluator::initialize();
+//   XMLPlatformUtils::Initialize();
+  // XPathEvaluator::initialize();
   }
 
   xml_document::~xml_document()
   {
-    XPathEvaluator::terminate();
-    XMLPlatformUtils::Terminate();
+   // XPathEvaluator::terminate();
+   // XMLPlatformUtils::Terminate();
   }
 
   xml_node  xml_document::select_single_node(string xpath)
@@ -92,11 +92,7 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 		cout<<"Warning: pnode pointer being passed to xml_node::ctor() is null"<<endl;
 	}
 	
-    cout<<"Running a test method to see if object is valid..."<<endl;
-   XalanDOMString str = theNode->getNodeName();
-   string ret;
-   ret.assign(str.begin(), str.end());
-	cout<<"Method run, output is : "<<ret<<endl;
+    
     return xml_node(pnode, m_pprefix_resolver, m_pdom_support);
 											
   }
@@ -117,7 +113,7 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 
 	if (theLiaison == nullptr)
 	{
-		cout<<"Liaison is null";
+		logger.log_warning("Liaison is null");;
 	}
 	
 	//logger.log_info(xml);
@@ -128,14 +124,11 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 	XalanDocument * const theDocument = theLiaison->parseXMLStream(*theInputSource);
 	if (theDocument == nullptr)
 	{
-		cout<<"XalanDocument in load_xml came back null"<<endl;
+		logger.log_warning("XalanDocument in load_xml came back null");
 	}
-	logger.log_info("doc parsed");
-	logger.log_info("Setting pointer 1");
+	
 	p_doc.reset(theDocument);
-	logger.log_info("Setting pointer 2");
 	m_pprefix_resolver.reset(new XalanDocumentPrefixResolver(theDocument));
-	logger.log_info("ended");
 
   }
 
