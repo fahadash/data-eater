@@ -38,23 +38,25 @@ cout<<"XML Test"<<endl;
 
 
   logger.log_info("Initializing");
+  string s;
+{
   xml_document doc;
   cout<<"Loading doc";
   doc.load_xml(xml);
   cout<<"getting node";
   xml_node something = doc.select_single_node("/Books/Book[@ISBN='002']/@Author");
   cout<<"getting text";
-  string s = something.get_text();
-
+  s = something.get_text();
+}
   cout<<"Text = "<<s<<endl;
   cout<<"loaded"<<endl;
 
 
 
-
+			XPathEvaluator::terminate();
 
 			XMLPlatformUtils::Terminate();
 
-			XPathEvaluator::terminate();
+			
 
 }

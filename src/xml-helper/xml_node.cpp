@@ -21,26 +21,16 @@
 #include <string>
 #include <memory>
 using namespace std;
+
+#include "../shared/util.h"
+
 XALAN_USING_XALAN(XalanDocument)
 XALAN_USING_XALAN(XPathEvaluator)
 
 
 
 
-template <typename T>
-inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer is null")
-  {
-    if (!ptr)
-        {
-                cout<<message<<endl;
-                return 0;
-        }
-    return 1;
-  }
-
-
-
- xml_node:: xml_node(shared_ptr<XalanNode> pnode, shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport)
+ xml_node:: xml_node(XalanNode* pnode, shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport)
  {
   dataeater::log logger;
   logger.log_info("xml_node constructor");
@@ -65,7 +55,7 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 
      if (check_null(m_pnode, "xml_node - Pointer is null"))
 	{
-		return xml_node(shared_ptr<XalanNode>(), m_pprefix_resolver, shared_ptr<XalanSourceTreeDOMSupport>());
+		return xml_node(nullptr, m_pprefix_resolver, shared_ptr<XalanSourceTreeDOMSupport>());
 	}
      
      //TODO Check domSupport null
@@ -74,15 +64,13 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
     XPathEvaluator evaluator;
     XalanNode *const theNode = evaluator.selectSingleNode(
 							*m_pdom_support,
-							m_pnode.get(),
+							m_pnode,
 							XalanDOMString((const char*) xpath.c_str()).c_str(),
 							*m_pprefix_resolver);
 
 	logger.log_info("Evaluation ended");
-	shared_ptr<XalanNode> pnode;
-	pnode.reset(theNode);
 
-    return xml_node(pnode, m_pprefix_resolver, m_pdom_support);
+    return xml_node(theNode, m_pprefix_resolver, m_pdom_support);
 											
   }
 

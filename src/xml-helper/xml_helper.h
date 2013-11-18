@@ -45,12 +45,12 @@ class xml_node
 {
  
  private:
-  shared_ptr<XalanNode> m_pnode;
+  XalanNode* m_pnode;
   shared_ptr<XalanSourceTreeDOMSupport> m_pdom_support;
   shared_ptr<XalanDocumentPrefixResolver> m_pprefix_resolver;
 
  public:
-  xml_node(shared_ptr<XalanNode> pnode, shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport);
+  xml_node(XalanNode* pnode, shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport);
   virtual ~xml_node();
  public:
   xml_node  select_single_node(string xpath);

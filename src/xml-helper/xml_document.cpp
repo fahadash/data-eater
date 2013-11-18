@@ -26,6 +26,8 @@ using namespace std;
 
 #include<xercesc/util/BinInputStream.hpp>
 
+#include "../shared/util.h"
+
 XALAN_USING_XERCES(XMLPlatformUtils)
 XALAN_USING_XERCES(MemBufInputSource)
 XALAN_USING_XERCES(BinInputStream)
@@ -41,16 +43,7 @@ XALAN_USING_XALAN(XalanSourceTreeDOMSupport)
 XALAN_USING_XALAN(XalanSourceTreeParserLiaison)
 //XALAN_USING_XALAN(XObjectPtr)
 
-template <typename T> 
-inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer is null")
-  {
-    if (!ptr)
-  	{
-		cout<<message<<endl;
-		return 1;
- 	}
-    return 0;
-  }
+
 
   xml_document::xml_document()
   {
@@ -69,7 +62,7 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
      if (check_null(p_doc, "xml_document - p_doc pointer is null") 
 		|| check_null (m_pdom_support, "xml_document - m_pdom_support is null"))
 	{
-		return xml_node(shared_ptr<XalanNode>(), m_pprefix_resolver, shared_ptr<XalanSourceTreeDOMSupport>());
+		return xml_node(nullptr, m_pprefix_resolver, shared_ptr<XalanSourceTreeDOMSupport>());
 	}
      
      //TODO Check domSupport null
@@ -85,16 +78,9 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
 	{
 		cout<<"Warning: evaluator.selectSingleNode returned null"<<endl;
 	}
-	shared_ptr<XalanNode> pnode(theNode);
-
-	if (!pnode)
-	{
-		cout<<"Warning: pnode pointer being passed to xml_node::ctor() is null"<<endl;
-	}
 	
-    
-    return xml_node(pnode, m_pprefix_resolver, m_pdom_support);
-											
+
+     return  xml_node(theNode, m_pprefix_resolver, m_pdom_support);											
   }
 
   list<xml_node> select_nodes(string xpath);
@@ -105,7 +91,7 @@ inline int check_null(const shared_ptr<T> ptr,const string& message = "Pointer i
   {
 	dataeater::log logger;
 
-	XalanSourceTreeInit		theSourceTreeInit;
+//	XalanSourceTreeInit		theSourceTreeInit;
 	XalanSourceTreeDOMSupport *theDOMSupport = new XalanSourceTreeDOMSupport();
 	m_pdom_support.reset(theDOMSupport);
 	XalanSourceTreeParserLiaison *theLiaison = new XalanSourceTreeParserLiaison(*theDOMSupport);
