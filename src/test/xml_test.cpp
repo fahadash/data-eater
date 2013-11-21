@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 dataeater::log logger;
    
 cout<<"XML Test"<<endl;
-  string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>  \r\n <Books><Book ISBN=\"001\" Author=\"Muhammad\" /> <Book ISBN=\"002\" Author=\"Fahad\" />  </Books>";
+  string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>  \r\n <Books><Book ISBN=\"001\" Author=\"Muhammad\" >Good Deeds</Book> <Book ISBN=\"002\" Author=\"Fahad\" />  </Books>";
 
 
   logger.log_info("Initializing");
@@ -46,8 +46,18 @@ cout<<"XML Test"<<endl;
   cout<<"getting node";
   xml_nodelist something = doc.select_nodes("/Books/Book");
 
+  for (xml_nodelist::iterator itr = something.begin();itr!=something.end();itr++)
+  {
+   xml_node node = *itr;
+   cout<<"Length = "<<something.length()<<endl;
+  
+   string text = node.get_text();
+
+   cout<<"Text = "<<text<<endl;
+ }
+  
+
 }
-  cout<<"Text = "<<s<<endl;
   cout<<"loaded"<<endl;
 
 

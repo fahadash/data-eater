@@ -87,16 +87,14 @@ XALAN_USING_XALAN(XObjectPtr)
   xml_nodelist xml_document::select_nodes(string xpath)
   {
 	XPathEvaluator evaluator;
-	XObjectPtr result = 
+	const XObjectPtr result(
 				evaluator.evaluate(
 						*m_pdom_support,
 						p_doc.get(),
 						XalanDOMString((const char *) xpath.c_str()).c_str(),
-						*m_pprefix_resolver);
+						*m_pprefix_resolver));
 
-	return xml_nodelist(result);
-
-
+	return xml_nodelist(result, m_pprefix_resolver, m_pdom_support);
 
   }
 

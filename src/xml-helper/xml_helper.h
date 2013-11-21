@@ -41,6 +41,7 @@ XALAN_USING_XALAN(XalanSourceTreeDOMSupport)
 XALAN_USING_XALAN(XalanDocumentPrefixResolver)
 XALAN_USING_XALAN(XalanDOMString)
 XALAN_USING_XALAN(XObjectPtr)
+XALAN_USING_XALAN(NodeRefList)
 
 
 class xml_node 
@@ -82,13 +83,42 @@ class xml_document
 };
 
 class xml_nodelist
-{
+{ 
+public:
+	class iterator 
+	{
+		public :
+		iterator(xml_nodelist *p_nodelist, size_t start_pos);
+		
+		xml_node operator*();
+		xml_node *operator->();
+		xml_nodelist::iterator &operator++();
+		xml_nodelist::iterator operator++(int);
+		bool operator==(const xml_nodelist::iterator &rhs);
+		bool operator!=(const xml_nodelist::iterator &rhs);
+		private:
+		void set_current(size_t index);
+		xml_nodelist* m_pnodelist;
+		shared_ptr<xml_node> m_pnode;
+		unsigned int m_pos;
+	};
+
   private:
-	XObjectPtr m_nodelist;
+	const NodeRefList m_nodelist;
+	shared_ptr<XalanSourceTreeDOMSupport> m_pdom_support;
+	shared_ptr<XalanDocumentPrefixResolver> m_pprefix_resolver;
   public:
-	xml_nodelist(XObjectPtr node_list);
-	xml_node& get(size_t index);
-	xml_node& operator [](size_t index);
+	
+	xml_nodelist(const XObjectPtr node_list,  shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport);
+	xml_node get(size_t index);
+
+	xml_node* get_new(size_t index);
+	xml_node operator [](size_t index);
+	size_t length();
+	xml_nodelist::iterator begin();
+	xml_nodelist::iterator end();
+
+ 
 };
 
 #endif
