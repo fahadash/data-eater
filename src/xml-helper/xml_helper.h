@@ -4,6 +4,7 @@
 #include <xalanc/XalanSourceTree/XalanSourceTreeDOMSupport.hpp>
 #include <xalanc/XalanSourceTree/XalanSourceTreeInit.hpp>
 #include <xalanc/XalanSourceTree/XalanSourceTreeParserLiaison.hpp>
+#include <xalanc/XPath/NodeRefList.hpp>
 
 
 
@@ -22,7 +23,7 @@
 
 
 
-//#include <xalanc/XPath/XObject.hpp>
+#include <xalanc/XPath/XObject.hpp>
 #include <xalanc/XPath/XPathEvaluator.hpp>
 
 #include <string>
@@ -39,6 +40,7 @@ XALAN_USING_XALAN(XalanNode)
 XALAN_USING_XALAN(XalanSourceTreeDOMSupport)
 XALAN_USING_XALAN(XalanDocumentPrefixResolver)
 XALAN_USING_XALAN(XalanDOMString)
+XALAN_USING_XALAN(XObjectPtr)
 
 
 class xml_node 
@@ -60,7 +62,7 @@ class xml_node
   string get_attribute_value(string attribute_name);
   string get_text();
 };
-
+class xml_nodelist;
 class xml_document
 {
  private:
@@ -76,7 +78,17 @@ class xml_document
   void load_xml(string xml);
  public:
   xml_node select_single_node(string xpath);
-  list<xml_node> select_nodes(string xpath);
+  xml_nodelist select_nodes(string xpath);
+};
+
+class xml_nodelist
+{
+  private:
+	XObjectPtr m_nodelist;
+  public:
+	xml_nodelist(XObjectPtr node_list);
+	xml_node& get(size_t index);
+	xml_node& operator [](size_t index);
 };
 
 #endif

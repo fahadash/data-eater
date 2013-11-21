@@ -6,7 +6,7 @@ INCLUDE = -I/usr/local/include
 LDFLAGS = -L/usr/local/lib
 LDLIBS = -lxerces-c -lxalan-c
 
-SOURCES = src/xml-helper/xml_node.cpp src/xml-helper/xml_document.cpp src/test/xml_test.cpp src/shared/vars.cpp src/log/log.cpp
+SOURCES = src/xml-helper/xml_node.cpp src/xml-helper/xml_nodelist.cpp src/xml-helper/xml_document.cpp src/test/xml_test.cpp src/shared/vars.cpp src/log/log.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=bin/xml.test
 

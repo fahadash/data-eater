@@ -44,9 +44,8 @@ cout<<"XML Test"<<endl;
   cout<<"Loading doc";
   doc.load_xml(xml);
   cout<<"getting node";
-  xml_node something = doc.select_single_node("/Books/Book[@ISBN='002']/@Author");
-  cout<<"getting text";
-  s = something.get_text();
+  xml_nodelist something = doc.select_nodes("/Books/Book");
+
 }
   cout<<"Text = "<<s<<endl;
   cout<<"loaded"<<endl;

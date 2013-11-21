@@ -10,7 +10,7 @@
 #include <xalanc/PlatformSupport/XSLException.hpp>
 #include <xalanc/DOMSupport/XalanDocumentPrefixResolver.hpp>
 
-//#include <xalanc/XPath/XObject.hpp>
+#include <xalanc/XPath/XObject.hpp>
 #include <xalanc/XPath/XPathEvaluator.hpp>
 
 
@@ -41,7 +41,8 @@ XALAN_USING_XALAN(XalanNode)
 XALAN_USING_XALAN(XalanSourceTreeInit)
 XALAN_USING_XALAN(XalanSourceTreeDOMSupport)
 XALAN_USING_XALAN(XalanSourceTreeParserLiaison)
-//XALAN_USING_XALAN(XObjectPtr)
+XALAN_USING_XALAN(XObject)
+XALAN_USING_XALAN(XObjectPtr)
 
 
 
@@ -80,10 +81,24 @@ XALAN_USING_XALAN(XalanSourceTreeParserLiaison)
 	}
 	
 
-     return  xml_node(theNode, m_pprefix_resolver, m_pdom_support);											
+     return xml_node(theNode, m_pprefix_resolver, m_pdom_support);	
   }
 
-  list<xml_node> select_nodes(string xpath);
+  xml_nodelist xml_document::select_nodes(string xpath)
+  {
+	XPathEvaluator evaluator;
+	XObjectPtr result = 
+				evaluator.evaluate(
+						*m_pdom_support,
+						p_doc.get(),
+						XalanDOMString((const char *) xpath.c_str()).c_str(),
+						*m_pprefix_resolver);
+
+	return xml_nodelist(result);
+
+
+
+  }
 
 
   void load(string filepath);
