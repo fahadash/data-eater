@@ -79,6 +79,7 @@ XALAN_USING_XALAN(XPathEvaluator)
   string get_attribute_value(string attribute_name);
   string xml_node::get_text()
   {
+	cout<<"Getting text...Node type="<<m_pnode->getNodeType()<<endl;
    if (m_pnode)
 {
    XalanDOMString str = m_pnode->getNodeValue();

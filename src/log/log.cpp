@@ -26,7 +26,7 @@ void log::log_info(std::string message)
 
 void log::log_warning(std::string message)
 {
-	cout<<message.c_str();
+	cout<<message.c_str()<<endl;
 }
 
 void log::log_error(std::string message, std::string arg0)
