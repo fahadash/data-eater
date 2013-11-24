@@ -65,7 +65,7 @@ xml_nodelist::iterator xml_nodelist::begin()
 
 xml_nodelist::iterator xml_nodelist::end()
 {
-	return iterator(this, length()-1);
+	return iterator(this, length());
 }
 
 
@@ -84,11 +84,10 @@ xml_nodelist::iterator::iterator(xml_nodelist *p_nodelist, size_t start_pos) : m
 
 void xml_nodelist::iterator::set_current(size_t index)
 {
-	cout<<"Set current called: "<<index<<endl;
 	m_pnode.reset(m_pnodelist->get_new(index));
 }
 
-xml_node xml_nodelist::iterator::operator*()
+xml_node &xml_nodelist::iterator::operator*()
 {
 	return (*m_pnode);
 }

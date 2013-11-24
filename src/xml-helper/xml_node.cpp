@@ -33,7 +33,6 @@ XALAN_USING_XALAN(XPathEvaluator)
  xml_node:: xml_node(XalanNode* pnode, shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport)
  {
   dataeater::log logger;
-  logger.log_info("xml_node constructor");
   check_null(pnode, "pnode in xml_node constructor is null");
   m_pnode = pnode;
   m_pdom_support = domSupport;
@@ -50,36 +49,47 @@ XALAN_USING_XALAN(XPathEvaluator)
 
   xml_node  xml_node::select_single_node(string xpath)
   {
-     dataeater::log logger;
-      logger.log_info("select_single_node entrance");
-
-     if (check_null(m_pnode, "xml_node - Pointer is null"))
+     if (check_null(m_pnode, "xml_document - p_doc pointer is null") 
+		|| check_null (m_pdom_support, "xml_document - m_pdom_support is null"))
 	{
 		return xml_node(nullptr, m_pprefix_resolver, shared_ptr<XalanSourceTreeDOMSupport>());
 	}
      
      //TODO Check domSupport null
 
-	logger.log_info("Evaluation started");
     XPathEvaluator evaluator;
-    XalanNode *const theNode = evaluator.selectSingleNode(
+    XalanNode* const theNode = evaluator.selectSingleNode(
 							*m_pdom_support,
 							m_pnode,
 							XalanDOMString((const char*) xpath.c_str()).c_str(),
-							*m_pprefix_resolver);
 
-	logger.log_info("Evaluation ended");
+								*m_pprefix_resolver);
+	if (theNode == nullptr)
+	{
+		cout<<"Warning: evaluator.selectSingleNode returned null"<<endl;
+	}
+	
 
-    return xml_node(theNode, m_pprefix_resolver, m_pdom_support);
-											
+     return xml_node(theNode, m_pprefix_resolver, m_pdom_support);	
   }
 
-  list<xml_node> select_nodes(string xpath);
+  xml_nodelist xml_node::select_nodes(string xpath)
+  {
+	XPathEvaluator evaluator;
+	const XObjectPtr result(
+				evaluator.evaluate(
+						*m_pdom_support,
+						m_pnode,
+						XalanDOMString((const char *) xpath.c_str()).c_str(),
+						*m_pprefix_resolver));
+
+	return xml_nodelist(result, m_pprefix_resolver, m_pdom_support);
+
+  }
 
   string get_attribute_value(string attribute_name);
   string xml_node::get_text()
   {
-	cout<<"Getting text...Node type="<<m_pnode->getNodeType()<<endl;
 	if (m_pnode)
 	{
 		XalanNode *ptarget_node = m_pnode;

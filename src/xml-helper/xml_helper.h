@@ -44,6 +44,7 @@ XALAN_USING_XALAN(XObjectPtr)
 XALAN_USING_XALAN(NodeRefList)
 
 
+class xml_nodelist;
 class xml_node 
 {
  
@@ -57,7 +58,7 @@ class xml_node
   virtual ~xml_node();
  public:
   xml_node  select_single_node(string xpath);
-  list<xml_node> select_nodes(string xpath);
+  xml_nodelist select_nodes(string xpath);
 
  public:
   string get_attribute_value(string attribute_name);
@@ -90,7 +91,7 @@ public:
 		public :
 		iterator(xml_nodelist *p_nodelist, size_t start_pos);
 		
-		xml_node operator*();
+		xml_node &operator*();
 		xml_node *operator->();
 		xml_nodelist::iterator &operator++();
 		xml_nodelist::iterator operator++(int);
