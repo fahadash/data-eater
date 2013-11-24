@@ -1,5 +1,5 @@
 CXX = g++
-CFLAGS = -Wall -Werror -std=c++11 -c
+CFLAGS = -Wall -Werror -std=c++11 -c -g3 -O0 -ggdb3
 
 
 INCLUDE = -I/usr/local/include
