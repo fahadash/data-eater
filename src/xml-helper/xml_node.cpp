@@ -86,7 +86,10 @@ XALAN_USING_XALAN(XPathEvaluator)
 
 		if (m_pnode->getNodeType() == XalanNode::ELEMENT_NODE)
 		{
-			ptarget_node = m_pnode->getFirstChild();
+			if ((ptarget_node = m_pnode->getFirstChild()) == nullptr)
+			{
+				return "";
+			}
 		}
 		XalanDOMString str = ptarget_node->getNodeValue();
 		string ret;

@@ -71,11 +71,20 @@ xml_nodelist::iterator xml_nodelist::end()
 
 xml_nodelist::iterator::iterator(xml_nodelist *p_nodelist, size_t start_pos) : m_pnodelist(p_nodelist), m_pos(start_pos)
 {
-	set_current(start_pos);
+	size_t length = p_nodelist->length();
+	if (start_pos < length) 
+	{
+		set_current(start_pos);
+	}
+	else
+	{
+		start_pos = length;
+	}
 }
 
 void xml_nodelist::iterator::set_current(size_t index)
 {
+	cout<<"Set current called: "<<index<<endl;
 	m_pnode.reset(m_pnodelist->get_new(index));
 }
 
@@ -102,9 +111,9 @@ xml_nodelist::iterator xml_nodelist::iterator::operator++(int)
 }
 bool xml_nodelist::iterator::operator==(const xml_nodelist::iterator &rhs)
 {
-	return (this->m_pnode == rhs.m_pnode);
+	return (this->m_pos == rhs.m_pos);
 }
 bool xml_nodelist::iterator::operator!=(const xml_nodelist::iterator &rhs)
 {
-	return (this->m_pnode != rhs.m_pnode);
+	return (this->m_pos != rhs.m_pos);
 }
