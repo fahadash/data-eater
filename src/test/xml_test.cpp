@@ -46,15 +46,14 @@ cout<<"XML Test"<<endl;
   cout<<"getting node";
   xml_nodelist something = doc.select_nodes("/Books/Book");
 
-  for (xml_nodelist::iterator itr = something.begin();itr!=something.end();itr++)
-  {
-   xml_node node = *itr;
+  
+   xml_node node = something[0];
    cout<<"Length = "<<something.length()<<endl;
   
    string text = node.get_text();
 
    cout<<"Text = "<<text<<endl;
- }
+ 
   
 
 }

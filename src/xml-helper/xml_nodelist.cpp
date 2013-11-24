@@ -34,7 +34,8 @@ xml_node xml_nodelist::get(size_t index)
 	{
 		throw std::string("out of bounds");
 	}
-	return xml_node(m_nodelist.item(index), m_pprefix_resolver, m_pdom_support);
+	XalanNode *pnode = m_nodelist.item(index);
+	return xml_node(pnode, m_pprefix_resolver, m_pdom_support);
 }
 
 xml_node* xml_nodelist::get_new(size_t index)

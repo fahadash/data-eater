@@ -80,14 +80,20 @@ XALAN_USING_XALAN(XPathEvaluator)
   string xml_node::get_text()
   {
 	cout<<"Getting text...Node type="<<m_pnode->getNodeType()<<endl;
-   if (m_pnode)
-{
-   XalanDOMString str = m_pnode->getNodeValue();
-   string ret;
-   ret.assign(str.begin(), str.end());
+	if (m_pnode)
+	{
+		XalanNode *ptarget_node = m_pnode;
 
-   return ret;
-}
+		if (m_pnode->getNodeType() == XalanNode::ELEMENT_NODE)
+		{
+			ptarget_node = m_pnode->getFirstChild();
+		}
+		XalanDOMString str = ptarget_node->getNodeValue();
+		string ret;
+		ret.assign(str.begin(), str.end());
+
+	   return ret;
+	}
  else
   {
     cout<<"Error: m_pnode is null";
