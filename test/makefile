@@ -1,12 +1,17 @@
 CXX = g++
-CFLAGS = -Wall -Werror -std=c++11 -c
+CFLAGS = -Wall -Werror -std=c++11 -c -ggdb3
 
 
 INCLUDE = -I/usr/local/include
 LDFLAGS = -L/usr/local/lib
-LDLIBS =
+LDLIBS = -lxerces-c -lxalan-c
 
-SOURCES = main.cpp xml_test.cpp
+
+XML_SOURCES = ../src/xml-helper/xml_document.cpp ../src/xml-helper/xml_nodelist.cpp ../src/xml-helper/xml_node.cpp ../src/xml-helper/xml_attributes.cpp
+LOG_SOURCES = ../src/log/log.cpp
+SHARED_SOURCES = ../src/shared/vars.cpp
+
+SOURCES = main.cpp xml_test.cpp $(XML_SOURCES) $(LOG_SOURCES) $(SHARED_SOURCES)
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=bin/log.test
 

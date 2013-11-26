@@ -10,7 +10,7 @@
 #include <sstream>
 using namespace std;
 
-
+extern string g_test_datapath;
 #include <xercesc/util/PlatformUtils.hpp>
 
 
@@ -50,12 +50,12 @@ namespace tut
 		string xml;
 		data()
 		{
-			xml = readfile("data/test.xml");
+			xml = readfile(g_test_datapath + "/test.xml");
 		}
 	};
 
 	typedef test_group<data> tg;
-	tg test_group("xml library tests");
+	tg xml_group("xml library tests");
 
 	typedef tg::object testobject;
 
@@ -70,15 +70,71 @@ namespace tut
 		XMLPlatformUtils::Initialize();
 		XPathEvaluator::initialize();
 
-		xml_document doc;
-		//doc.load_xml(xml);
-
+		{
+			xml_document doc;
+			
+			doc.load_xml(xml);
+		}
 		
-		XMLPlatformUtils::Terminate();
 		XPathEvaluator::terminate();
+		XMLPlatformUtils::Terminate();
 
 
 		ensure_equals("Loaded", 1, 1);
+
+	}
+
+	template<>
+	template<>
+	void testobject::test<2>()
+	{
+		set_test_name("Testing select_single_node");
+		
+		string test_value;
+		XMLPlatformUtils::Initialize();
+		XPathEvaluator::initialize();
+
+		{
+			xml_document doc;
+			
+			doc.load_xml(xml);
+			
+			xml_node node = doc.select_single_node("//book/author");
+			test_value = node.get_name();
+		}
+		
+		XPathEvaluator::terminate();
+		XMLPlatformUtils::Terminate();
+
+
+		ensure_equals("names are matching", test_value, "author");
+
+	}
+
+	template<>
+	template<>
+	void testobject::test<3>()
+	{
+		set_test_name("testing node list");
+		
+		int test_value;
+		XMLPlatformUtils::Initialize();
+		XPathEvaluator::initialize();
+
+		{
+			xml_document doc;
+			
+			doc.load_xml(xml);
+			
+			xml_nodelist nodes = doc.select_nodes("//book");
+			test_value = nodes.length();
+		}
+		
+		XPathEvaluator::terminate();
+		XMLPlatformUtils::Terminate();
+
+
+		ensure_equals("names are matching", test_value, 12);
 
 	}
 }
