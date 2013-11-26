@@ -1,14 +1,14 @@
 CXX = g++
-CFLAGS = -Wall -Werror -std=c++11 -c -g3 -O0 -ggdb3
+CFLAGS = -Wall -Werror -std=c++11 -c
 
 
 INCLUDE = -I/usr/local/include
 LDFLAGS = -L/usr/local/lib
-LDLIBS = -lxerces-c -lxalan-c
+LDLIBS =
 
-SOURCES = src/xml-helper/xml_attributes.cpp src/xml-helper/xml_node.cpp src/xml-helper/xml_nodelist.cpp src/xml-helper/xml_document.cpp src/test/xml_test.cpp src/shared/vars.cpp src/log/log.cpp
+SOURCES = main.cpp xml_test.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=bin/xml.test
+EXECUTABLE=bin/log.test
 
 # XML TEST
 
@@ -29,14 +29,14 @@ endef
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
+	@ if ! test -d obj; then echo "obj directory not found creating..."; mkdir obj; fi
+	@ if ! test -d bin; then echo "bin directory not found creating..."; mkdir bin; fi
 	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@  $(LDLIBS)
 	$(call removeobj)
-	echo Compiling finished......OOO.....
+	@ echo Compiling finished......OOO.....
 
 .cpp.o:
 	$(CXX) $(CFLAGS) $< -o $@
-	if ! test -d obj; then echo "obj directory not found creating..."; mkdir obj; fi
-	if ! test -d bin; then echo "bin directory not found creating..."; mkdir bin; fi
 
 clean:
 	rm -rf bin

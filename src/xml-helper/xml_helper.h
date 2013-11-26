@@ -7,6 +7,7 @@
 #include <xalanc/XPath/NodeRefList.hpp>
 
 
+#include <xalanc/XalanDOM/XalanNamedNodeMap.hpp>
 
 
 #include <xercesc/util/PlatformUtils.hpp>
@@ -42,9 +43,51 @@ XALAN_USING_XALAN(XalanDocumentPrefixResolver)
 XALAN_USING_XALAN(XalanDOMString)
 XALAN_USING_XALAN(XObjectPtr)
 XALAN_USING_XALAN(NodeRefList)
+XALAN_USING_XALAN(XalanNamedNodeMap)
 
 
 class xml_nodelist;
+class xml_node;
+class xml_attributes
+{
+  private:
+	const XalanNamedNodeMap* m_map;
+
+
+  public:
+	class iterator 
+	{
+		public :
+		iterator(xml_attributes *p_attributes, size_t start_pos);
+		
+		xml_node &operator*();
+		xml_node *operator->();
+		xml_attributes::iterator &operator++();
+		xml_attributes::iterator operator++(int);
+		bool operator==(const xml_attributes::iterator &rhs);
+		bool operator!=(const xml_attributes::iterator &rhs);
+		private:
+		void set_current(size_t index);
+		xml_attributes* m_pattributes;
+		shared_ptr<xml_node> m_pnode;
+		unsigned int m_pos;
+	};
+
+  private:
+	shared_ptr<XalanSourceTreeDOMSupport> m_pdom_support;
+	shared_ptr<XalanDocumentPrefixResolver> m_pprefix_resolver;
+  public:
+	
+	xml_attributes(const XalanNamedNodeMap* map,  shared_ptr<XalanDocumentPrefixResolver> prefix_resolver, shared_ptr<XalanSourceTreeDOMSupport> domSupport);
+	xml_node get(size_t index);
+
+	xml_node* get_new(size_t index);
+	xml_node operator [](size_t index);
+	size_t length();
+	xml_attributes::iterator begin();
+	xml_attributes::iterator end();
+	
+};
 class xml_node 
 {
  
@@ -63,8 +106,11 @@ class xml_node
  public:
   string get_attribute_value(string attribute_name);
   string get_text();
+  string get_name();
+
+  xml_attributes get_attributes();
 };
-class xml_nodelist;
+
 class xml_document
 {
  private:
@@ -81,6 +127,7 @@ class xml_document
  public:
   xml_node select_single_node(string xpath);
   xml_nodelist select_nodes(string xpath);
+
 };
 
 class xml_nodelist

@@ -16,6 +16,7 @@
 #include <xalanc/XalanSourceTree/XalanSourceTreeInit.hpp>
 #include <xalanc/XalanSourceTree/XalanSourceTreeParserLiaison.hpp>
 #include <xalanc/XalanDOM/XalanNode.hpp>
+#include <xalanc/XalanDOM/XalanNamedNodeMap.hpp>
 #include "../log/log.h"
 #include <iostream>
 #include <string>
@@ -26,6 +27,7 @@ using namespace std;
 
 XALAN_USING_XALAN(XalanDocument)
 XALAN_USING_XALAN(XPathEvaluator)
+XALAN_USING_XALAN(XalanNamedNodeMap)
 
 
 
@@ -87,7 +89,26 @@ XALAN_USING_XALAN(XPathEvaluator)
 
   }
 
-  string get_attribute_value(string attribute_name);
+  xml_attributes xml_node::get_attributes()
+  {
+	return xml_attributes(m_pnode->getAttributes(), m_pprefix_resolver, m_pdom_support);
+  }
+
+  string xml_node::get_attribute_value(string attribute_name)
+  {
+	const XalanNamedNodeMap* pmap = m_pnode->getAttributes();
+	XalanNode *pnode = pmap->getNamedItem(XalanDOMString((const char *) attribute_name.c_str()));
+	
+	if (pnode != nullptr)
+	{
+		xml_node node(pnode, m_pprefix_resolver, m_pdom_support);
+
+		return node.get_text();
+
+	}
+	return "";
+  }
+
   string xml_node::get_text()
   {
 	if (m_pnode)
@@ -102,6 +123,26 @@ XALAN_USING_XALAN(XPathEvaluator)
 			}
 		}
 		XalanDOMString str = ptarget_node->getNodeValue();
+		string ret;
+		ret.assign(str.begin(), str.end());
+
+	   return ret;
+	}
+ else
+  {
+    cout<<"Error: m_pnode is null";
+    return "";
+  }
+  }
+
+  string xml_node::get_name()
+  {
+	if (m_pnode)
+	{
+		XalanNode *ptarget_node = m_pnode;
+
+		
+		XalanDOMString str = ptarget_node->getNodeName();
 		string ret;
 		ret.assign(str.begin(), str.end());
 

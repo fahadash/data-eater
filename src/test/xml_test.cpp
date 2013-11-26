@@ -78,8 +78,16 @@ cout<<"XML Test"<<endl;
   {
    xml_node node = *itr;  
    xml_node mynode = node.select_single_node("author");
+
    string text = mynode.get_text();
    cout<<"Node Found Text = "<<text<<endl;
+   
+   xml_attributes attributes = node.get_attributes();
+  
+   for (xml_attributes::iterator aitr=attributes.begin();aitr!=attributes.end();aitr++)
+	{
+		cout<<"Attribute found, Name="<<(*aitr).get_name()<<", Text="<<(*aitr).get_text()<<endl;
+	}
  }
   
 
