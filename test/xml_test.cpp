@@ -55,7 +55,7 @@ namespace tut
 	};
 
 	typedef test_group<data> tg;
-	tg xml_group("xml library tests");
+	tg xml_group("xml");
 
 	typedef tg::object testobject;
 

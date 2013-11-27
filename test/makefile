@@ -13,7 +13,7 @@ SHARED_SOURCES = ../src/shared/vars.cpp
 
 SOURCES = main.cpp xml_test.cpp $(XML_SOURCES) $(LOG_SOURCES) $(SHARED_SOURCES)
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=bin/log.test
+EXECUTABLE=bin/run_tests
 
 # XML TEST
 
