@@ -13,8 +13,9 @@ LOG_SOURCES = ../src/log/log.cpp
 SHARED_SOURCES = ../src/shared/vars.cpp
 MODEL_SOURCES = ../src/model/form_data.cpp
 TIDY_SOURCES = ../src/tidy-helper/tidy_converter.cpp
-TEST_SOURCES = main.cpp xml_test.cpp curl_test.cpp tidy_test.cpp log_test.cpp
-SOURCES = $(TEST_SOURCES) $(XML_SOURCES) $(LOG_SOURCES) $(SHARED_SOURCES) $(CURL_SOURCES) $(MODEL_SOURCES) $(TIDY_SOURCES)
+XSL_SOURCES = ../src/xml-helper/xsl_transformer.cpp
+TEST_SOURCES = main.cpp xml_test.cpp curl_test.cpp tidy_test.cpp log_test.cpp xsl_test.cpp test_util.cpp
+SOURCES = $(TEST_SOURCES) $(XML_SOURCES) $(LOG_SOURCES) $(SHARED_SOURCES) $(CURL_SOURCES) $(MODEL_SOURCES) $(TIDY_SOURCES) $(XSL_SOURCES)
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=bin/run_tests
 

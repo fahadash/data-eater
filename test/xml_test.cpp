@@ -2,12 +2,10 @@
 
 #include <tut/tut.hpp>
 
-
+#include "test_util.h"
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include <fstream>
-#include <sstream>
 using namespace std;
 
 extern string g_test_datapath;
@@ -22,26 +20,7 @@ XALAN_USING_XERCES(XMLPlatformUtils)
 
 XALAN_USING_XALAN(XPathEvaluator)
 
-string readfile(string filename)
-{
-  stringstream output;
-  string line;
-  ifstream myfile(filename);
-  if (myfile.is_open())
-   {
-    while (getline(myfile, line))
-	{
-		output<<line<<endl;
-	}
-	myfile.close();
-   }
-	else
-	{
-		cerr<<"Error: could not open file:"<<filename;
-	}
-	
-	return output.str();
-}
+
 
 namespace tut
 {
