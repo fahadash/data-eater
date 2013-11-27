@@ -6,7 +6,7 @@ using namespace std;
 CURL *init_curl()
 {
    
-   log logger;
+   dataeater::log logger;
    logger.log_info("Initializing curl easy");
    CURL  *curl = curl_easy_init();  
   

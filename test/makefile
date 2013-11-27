@@ -4,14 +4,17 @@ CFLAGS = -Wall -Werror -std=c++11 -c -ggdb3
 
 INCLUDE = -I/usr/local/include
 LDFLAGS = -L/usr/local/lib
-LDLIBS = -lxerces-c -lxalan-c
+LDLIBS = -lxerces-c -lxalan-c -lcurl -ltidy
 
 
 XML_SOURCES = ../src/xml-helper/xml_document.cpp ../src/xml-helper/xml_nodelist.cpp ../src/xml-helper/xml_node.cpp ../src/xml-helper/xml_attributes.cpp
+CURL_SOURCES = ../src/curl-helper/curl_helper.cpp ../src/curl-helper/curl_session.cpp ../src/curl-helper/init_curl.cpp
 LOG_SOURCES = ../src/log/log.cpp
 SHARED_SOURCES = ../src/shared/vars.cpp
-
-SOURCES = main.cpp xml_test.cpp $(XML_SOURCES) $(LOG_SOURCES) $(SHARED_SOURCES)
+MODEL_SOURCES = ../src/model/form_data.cpp
+TIDY_SOURCES = ../src/tidy-helper/tidy_converter.cpp
+TEST_SOURCES = main.cpp xml_test.cpp curl_test.cpp tidy_test.cpp log_test.cpp
+SOURCES = $(TEST_SOURCES) $(XML_SOURCES) $(LOG_SOURCES) $(SHARED_SOURCES) $(CURL_SOURCES) $(MODEL_SOURCES) $(TIDY_SOURCES)
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=bin/run_tests
 

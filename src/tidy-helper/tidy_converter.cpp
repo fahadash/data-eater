@@ -10,7 +10,7 @@ tidy_converter::tidy_converter(): m_errbuf({0})
 
 string tidy_converter::convert_xhtml(string input)
 {
- log logger;
+ dataeater::log logger;
  TidyBuffer output = {0};
  int rc = -1;
  Bool ok;

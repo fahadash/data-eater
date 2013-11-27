@@ -3,7 +3,7 @@
 echo "Calling make..."
 
 
-if make
+if ! make > /dev/null
  then
   echo 'Make failed....' >&2
   exit 1
@@ -18,7 +18,7 @@ if [ -n "$1" ]
 	./bin/run_tests ./data
  fi
 
-if $? 
+if [ $? = 0 ]
  then
    echo "Test(s) successful."
  else

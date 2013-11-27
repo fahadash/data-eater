@@ -21,7 +21,7 @@ struct MemoryStruct {
 static size_t
 WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
- log logger;
+ dataeater::log logger;
  size_t realsize = size * nmemb;
  struct MemoryStruct  *mem = (struct MemoryStruct *) userp;
  mem->memory = (char*)realloc(mem->memory, mem->size + realsize + 1);

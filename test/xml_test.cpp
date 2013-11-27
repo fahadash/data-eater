@@ -45,16 +45,16 @@ string readfile(string filename)
 
 namespace tut
 {
-	struct data
+	struct xml_data
 	{
 		string xml;
-		data()
+		xml_data()
 		{
 			xml = readfile(g_test_datapath + "/test.xml");
 		}
 	};
 
-	typedef test_group<data> tg;
+	typedef test_group<xml_data> tg;
 	tg xml_group("xml");
 
 	typedef tg::object testobject;
@@ -135,6 +135,68 @@ namespace tut
 
 
 		ensure_equals("names are matching", test_value, 12);
+
+	}
+
+
+	template<>
+	template<>
+	void testobject::test<4>()
+	{
+		set_test_name("single node attribute");
+		
+		bool test_value;
+		XMLPlatformUtils::Initialize();
+		XPathEvaluator::initialize();
+
+		{
+			xml_document doc;
+			
+			doc.load_xml(xml);
+			
+			xml_node node = doc.select_single_node("//book");
+			
+			string attribute = node.get_attribute_value("id");
+			
+			test_value = attribute.length() > 0;
+		}
+		
+		XPathEvaluator::terminate();
+		XMLPlatformUtils::Terminate();
+
+
+		ensure_equals("names are matching", test_value, true);
+
+	}
+
+
+	template<>
+	template<>
+	void testobject::test<5>()
+	{
+		set_test_name("single node attribute-list");
+		
+		bool test_value;
+		XMLPlatformUtils::Initialize();
+		XPathEvaluator::initialize();
+
+		{
+			xml_document doc;
+			
+			doc.load_xml(xml);
+			
+			xml_node node = doc.select_single_node("//book");
+			
+			xml_attributes attributes = node.get_attributes();
+			
+			test_value = attributes.length() > 0;
+		}
+		
+		XPathEvaluator::terminate();
+		XMLPlatformUtils::Terminate();
+
+
+		ensure_equals("names are matching", test_value, true);
 
 	}
 }

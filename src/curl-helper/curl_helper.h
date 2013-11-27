@@ -5,7 +5,9 @@ class curl_helper
 {
  private:
   CURL *m_curl;
-  log m_logger;
+
+  int something = 0;
+  dataeater::log m_logger;
  public:
   std::string simple_get(std::string url);	
  

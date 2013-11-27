@@ -1,3 +1,5 @@
+#include "../shared/vars.h"
+#include "../shared/args.h"
 #include<string>
 
 

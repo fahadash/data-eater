@@ -15,7 +15,7 @@ void form_data::add(string key, string value)
 
  curl_httppost * form_data::curl_form_data()
  {
-   log logger;
+   dataeater::log logger;
    logger.log_info("Building curl form data");
 
    curl_httppost *formpost = NULL;
