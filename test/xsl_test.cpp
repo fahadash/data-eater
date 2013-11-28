@@ -1,7 +1,16 @@
 #include "../src/xml-helper/xsl_helper.h"
 #include <tut/tut.hpp>
 #include "test_util.h"
+#include <xalanc/PlatformSupport/XSLException.hpp>
+#include <xercesc/framework/MemBufInputSource.hpp>
 
+#include <xalanc/Include/PlatformDefinitions.hpp>
+#include <xalanc/XPath/XPathEvaluator.hpp>
+
+
+XALAN_USING_XERCES(XMLPlatformUtils)
+XALAN_USING_XALAN(XPathEvaluator)
+XALAN_USING_XALAN(XSLException)
 
 extern string g_test_datapath;
 
@@ -28,12 +37,34 @@ namespace tut
 	template<>
 	void testobject::test<1>()
 	{
-		set_test_name("Simple Transform");
+		
+		XMLPlatformUtils::Initialize();
+		XPathEvaluator::initialize();
+		{
+			try
+			{
+				set_test_name("Simple Transform");
 
-		xsl_transformer transformer(g_test_datapath + "/simple.xsl");
-		string test_value = transformer.transform(xml);
+				xsl_transformer transformer(g_test_datapath + "/simple_test.xsl");
 
-		ensure_equals("transformation value equals", test_value, "success");
+				string test_value = transformer.transform(xml);
+
+				ensure_equals("transformation value equals", test_value, "success");
+			}
+			catch (const XSLException& ex)
+			{
+				cerr<< "XSL exception: "
+					<<ex.getMessage()
+					<<endl;
+				ensure_equals("xsl exception occured", 1, 0);
+			}
+			catch (...)
+			{
+				ensure_equals("generic exception occurred", 1, 0);
+			}
+		}
+		XPathEvaluator::terminate();
+		XMLPlatformUtils::Terminate();
 
 	}
 
