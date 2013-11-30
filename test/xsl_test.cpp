@@ -38,8 +38,8 @@ namespace tut
 	void testobject::test<1>()
 	{
 		
-		XMLPlatformUtils::Initialize();
-		XPathEvaluator::initialize();
+		XMLPlatformUtils::Initialize();	
+	        XalanTransformer::initialize();
 		{
 			try
 			{
@@ -56,14 +56,10 @@ namespace tut
 				cerr<< "XSL exception: "
 					<<ex.getMessage()
 					<<endl;
-				ensure_equals("xsl exception occured", 1, 0);
+				fail("xsl exception occured");
 			}
-			catch (...)
-			{
-				ensure_equals("generic exception occurred", 1, 0);
-			}
-		}
-		XPathEvaluator::terminate();
+		}	
+	        XalanTransformer::terminate();
 		XMLPlatformUtils::Terminate();
 
 	}
