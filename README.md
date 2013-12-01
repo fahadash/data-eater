@@ -8,3 +8,8 @@ Currently the project is at very basic stage. You might not find the code that c
 
 More information:
 For more information. See our wiki pages.
+
+
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/fahadash/data-eater/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
