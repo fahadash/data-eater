@@ -64,4 +64,68 @@ namespace tut
 
 	}
 
+
+	template<>
+	template<>
+	void testobject::test<2>()
+	{
+		
+		XMLPlatformUtils::Initialize();	
+	        XalanTransformer::initialize();
+		{
+			try
+			{
+				set_test_name("Parameterized Transform (string)");
+
+				xsl_transformer transformer(g_test_datapath + "/param_test.xsl");
+				transformer.set_stylesheet_param("param1", "'success'");
+				string test_value = transformer.transform(xml);
+
+				ensure_equals("transformation value equals", test_value, "success");
+			}
+			catch (const XSLException& ex)
+			{
+				cerr<< "XSL exception: "
+					<<ex.getMessage()
+					<<endl;
+				fail("xsl exception occured");
+			}
+		}	
+	        XalanTransformer::terminate();
+		XMLPlatformUtils::Terminate();
+
+	}
+
+
+	template<>
+	template<>
+	void testobject::test<3>()
+	{
+		
+		XMLPlatformUtils::Initialize();	
+	        XalanTransformer::initialize();
+		{
+			try
+			{
+				set_test_name("Parameterized Transform (double)");
+
+				xsl_transformer transformer(g_test_datapath + "/param_test.xsl");
+				transformer.set_stylesheet_param("param1", 2.33);
+				string test_value = transformer.transform(xml);
+
+				ensure_equals("transformation value equals", test_value, "2.33");
+			}
+			catch (const XSLException& ex)
+			{
+				cerr<< "XSL exception: "
+					<<ex.getMessage()
+					<<endl;
+				fail("xsl exception occured");
+			}
+		}	
+	        XalanTransformer::terminate();
+		XMLPlatformUtils::Terminate();
+
+	}
+
 }

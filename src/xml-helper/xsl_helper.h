@@ -23,6 +23,12 @@ class xsl_transformer
 		xsl_transformer(string xslPath);
 		
 		string transform(string xml);
+
+		void set_stylesheet_param(string param_name, string param_value);
+
+		//Xalan 1.11 is required. 1.10 does not have double support for 
+		// XalanTransformer::setStylesheetParam()
+		void set_stylesheet_param(string param_name, double param_value);
 };
 
 #endif
