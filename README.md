@@ -10,6 +10,6 @@ More information:
 For more information. See our wiki pages.
 
 
-
+UPDATE: We are currently working on Scripting Language, Look at the Wiki Page for Scripting Language to find out the latest. Scripting Language is currently in the analysis phase. We are planning on using boost-spirit for the implementation.
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/fahadash/data-eater/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
